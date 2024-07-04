@@ -1,6 +1,7 @@
 'use client'
 
 import Navbar from "@/components/Navbar";
+import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
 
 interface Weather {
@@ -57,58 +58,61 @@ interface WeatherData {
   cod: number;
 }
 
-// Example usage:
-const weatherData: WeatherData = {
-  coord: {
-    lon: -1.1505,
-    lat: 52.9536,
-  },
-  weather: [
-    {
-      id: 803,
-      main: "Clouds",
-      description: "broken clouds",
-      icon: "04n",
-    },
-  ],
-  base: "stations",
-  main: {
-    temp: 287.84,
-    feels_like: 287.48,
-    temp_min: 286.57,
-    temp_max: 289.73,
-    pressure: 1004,
-    humidity: 81,
-    sea_level: 1004,
-    grnd_level: 995,
-  },
-  visibility: 10000,
-  wind: {
-    speed: 6.69,
-    deg: 280,
-  },
-  clouds: {
-    all: 75,
-  },
-  dt: 1720039672,
-  sys: {
-    type: 2,
-    id: 2093695,
-    country: "GB",
-    sunrise: 1719978307,
-    sunset: 1720038740,
-  },
-  timezone: 3600,
-  id: 2641170,
-  name: "Nottingham",
-  cod: 200,
-};
+type Loading = boolean;
 
+// Example usage:
+// const weatherData: WeatherData = {
+//   coord: {
+//     lon: -1.1505,
+//     lat: 52.9536,
+//   },
+//   weather: [
+//     {
+//       id: 803,
+//       main: "Clouds",
+//       description: "broken clouds",
+//       icon: "04n",
+//     },
+//   ],
+//   base: "stations",
+//   main: {
+//     temp: 287.84,
+//     feels_like: 287.48,
+//     temp_min: 286.57,
+//     temp_max: 289.73,
+//     pressure: 1004,
+//     humidity: 81,
+//     sea_level: 1004,
+//     grnd_level: 995,
+//   },
+//   visibility: 10000,
+//   wind: {
+//     speed: 6.69,
+//     deg: 280,
+//   },
+//   clouds: {
+//     all: 75,
+//   },
+//   dt: 1720039672,
+//   sys: {
+//     type: 2,
+//     id: 2093695,
+//     country: "GB",
+//     sunrise: 1719978307,
+//     sunset: 1720038740,
+//   },
+//   timezone: 3600,
+//   id: 2641170,
+//   name: "Nottingham",
+//   cod: 200,
+// };
+
+// https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 const url = `https://api.openweathermap.org/data/2.5/weather?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`;
 
 export default function Home() {
   const [isLoading, setIsloading] = useState(true)
-  const [weatherData, setWeatherData] = useState()
+  const [weatherData, setWeatherData] = useState({})
 
   const fetchWeather = async() => {
     try {
@@ -128,9 +132,12 @@ export default function Home() {
 
   console.log(weatherData);
 
+  if (isLoading) return <Loading />
+    
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar />
+      <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4"></main>
     </div>
   );
 }
