@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { parseISO } from "date-fns";
 import format from "date-fns/format";
 import Container from "@/components/Container";
+import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
 
 interface Weather {
   id: number;
@@ -143,11 +144,28 @@ export default function Home() {
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         <section>
           <div>
-            <div className="flex gap-1 text-2xl items-end">
+            <div className="flex gap-1 text-2xl items-end space-y-2">
               <h2>{format(parseISO(firstData?.dt_txt ?? ''), 'EEEE')}</h2>
               <p className="text-lg">({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})</p>
             </div>
-            <Container />
+            <Container className="gap-10 px-6 items-center">
+              <div className="flex flex-col px4">
+                <span className="text-5xl">
+                  {convertKelvinToCelsius(firstData?.main.temp)}°
+                </span>
+                <p className="text-xs space-x-1 whitespace-nowrap">
+                  <span>Feels like</span>
+                  <span>{convertKelvinToCelsius(firstData?.main.feels_like)}°</span>
+                </p>
+                <p className="text-xs space-x-2">
+                  <span>min: {convertKelvinToCelsius(firstData?.main.temp_min)}°⬇</span>
+                  <span>max: {convertKelvinToCelsius(firstData?.main.temp_max)}°⬆</span>
+                </p>
+              </div>
+              <div className="flex gap-10 sm:gap-15 overflow-x-auto justify-between pr-3">
+                
+              </div>
+            </Container>
           </div>
         </section>
       </main>
