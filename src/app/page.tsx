@@ -7,6 +7,9 @@ import { parseISO } from "date-fns";
 import format from "date-fns/format";
 import Container from "@/components/Container";
 import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
+import WeatherIcon from "@/components/WeatherIcon";
+import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
+import CurentForecast from "@/components/CurentForecast";
 
 interface Weather {
   id: number;
@@ -43,23 +46,21 @@ interface Sys {
   sunset: number;
 }
 
-interface WeatherData {
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  weather: Weather[];
-  base: string;
-  main: Main;
-  visibility: number;
-  wind: Wind;
-  clouds: Clouds;
+interface Rain {
+  "3h": number;
+}
+
+interface ForecastData {
   dt: number;
+  main: Main;
+  weather: Weather[];
+  clouds: Clouds;
+  wind: Wind;
+  visibility: number;
+  pop: number;
+  rain: Rain;
   sys: Sys;
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
+  dt_txt: string;
 }
 
 // Example usage:
@@ -115,7 +116,7 @@ export default function Home() {
   const [isLoading, setIsloading] = useState(true)
   const [weatherData, setWeatherData] = useState({})
 
-  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=10`;
 
   const fetchWeather = async() => {
     try {
@@ -149,21 +150,17 @@ export default function Home() {
               <p className="text-lg">({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})</p>
             </div>
             <Container className="gap-10 px-6 items-center">
-              <div className="flex flex-col px4">
-                <span className="text-5xl">
-                  {convertKelvinToCelsius(firstData?.main.temp)}°
-                </span>
-                <p className="text-xs space-x-1 whitespace-nowrap">
-                  <span>Feels like</span>
-                  <span>{convertKelvinToCelsius(firstData?.main.feels_like)}°</span>
-                </p>
-                <p className="text-xs space-x-2">
-                  <span>min: {convertKelvinToCelsius(firstData?.main.temp_min)}°⬇</span>
-                  <span>max: {convertKelvinToCelsius(firstData?.main.temp_max)}°⬆</span>
-                </p>
-              </div>
+              <CurentForecast {...firstData}/>
               <div className="flex gap-10 sm:gap-15 overflow-x-auto justify-between pr-3">
-                
+                {weatherData?.list.map((data: ForecastData, index: number) => {
+                  return (
+                    <div className="flex flex-col justify-between gap-2 items-center text-xs font-semibold" key={index}>
+                      <p className="whitespace-nowrap">{format(parseISO(data.dt_txt), "h:mm a")}</p>
+                      <WeatherIcon iconName={getDayOrNightIcon(data?.weather[0].icon, data.dt_txt)}/>
+                      <p>{convertKelvinToCelsius(data?.main.temp ?? 0)}°</p>
+                    </div>
+                  )
+                })}
               </div>
             </Container>
           </div>
