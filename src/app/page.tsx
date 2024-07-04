@@ -3,6 +3,9 @@
 import Navbar from "@/components/Navbar";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
+import { parseISO } from "date-fns";
+import format from "date-fns/format";
+import Container from "@/components/Container";
 
 interface Weather {
   id: number;
@@ -58,8 +61,6 @@ interface WeatherData {
   cod: number;
 }
 
-type Loading = boolean;
-
 // Example usage:
 // const weatherData: WeatherData = {
 //   coord: {
@@ -108,11 +109,12 @@ type Loading = boolean;
 // };
 
 // https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
-const url = `https://api.openweathermap.org/data/2.5/weather?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`;
 
 export default function Home() {
   const [isLoading, setIsloading] = useState(true)
   const [weatherData, setWeatherData] = useState({})
+
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`;
 
   const fetchWeather = async() => {
     try {
@@ -130,14 +132,25 @@ export default function Home() {
     fetchWeather();
   }, []);
 
-  console.log(weatherData);
-
   if (isLoading) return <Loading />
+
+  const firstData = weatherData?.list[0]
+  console.log(weatherData);
     
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar />
-      <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4"></main>
+      <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
+        <section>
+          <div>
+            <div className="flex gap-1 text-2xl items-end">
+              <h2>{format(parseISO(firstData?.dt_txt ?? ''), 'EEEE')}</h2>
+              <p className="text-lg">({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})</p>
+            </div>
+            <Container />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
