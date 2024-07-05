@@ -1,10 +1,10 @@
 import React from 'react'
 import { MdWbSunny, MdMyLocation, MdLocationOn } from "react-icons/md";
-import SearchBox from './SearchBox';
+import SearchBox from '../search-box';
 
 type Props = {}
 
-export default function Navbar({}: Props) {
+const Navbar = ({}: Props) => {
   return (
     <nav className='shadow-sm sticky top-0 left-0 z-50 bg-white'>
       <div className='h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto'>
@@ -24,3 +24,5 @@ export default function Navbar({}: Props) {
     </nav>
   )
 }
+
+export default Navbar

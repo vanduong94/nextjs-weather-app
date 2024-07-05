@@ -1,15 +1,15 @@
 'use client'
 
-import Navbar from "@/components/Navbar";
-import Loading from "@/components/Loading";
+import Navbar from "@/components/navbar";
+import Loading from "@/components/loading";
 import { useEffect, useState } from "react";
 import { parseISO } from "date-fns";
 import format from "date-fns/format";
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
-import WeatherIcon from "@/components/WeatherIcon";
+import WeatherIcon from "@/components/weather-icon";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
-import CurentForecast from "@/components/CurentForecast";
+import CurentForecast from "@/components/current-forecast";
 
 interface Weather {
   id: number;
@@ -62,53 +62,6 @@ interface ForecastData {
   sys: Sys;
   dt_txt: string;
 }
-
-// Example usage:
-// const weatherData: WeatherData = {
-//   coord: {
-//     lon: -1.1505,
-//     lat: 52.9536,
-//   },
-//   weather: [
-//     {
-//       id: 803,
-//       main: "Clouds",
-//       description: "broken clouds",
-//       icon: "04n",
-//     },
-//   ],
-//   base: "stations",
-//   main: {
-//     temp: 287.84,
-//     feels_like: 287.48,
-//     temp_min: 286.57,
-//     temp_max: 289.73,
-//     pressure: 1004,
-//     humidity: 81,
-//     sea_level: 1004,
-//     grnd_level: 995,
-//   },
-//   visibility: 10000,
-//   wind: {
-//     speed: 6.69,
-//     deg: 280,
-//   },
-//   clouds: {
-//     all: 75,
-//   },
-//   dt: 1720039672,
-//   sys: {
-//     type: 2,
-//     id: 2093695,
-//     country: "GB",
-//     sunrise: 1719978307,
-//     sunset: 1720038740,
-//   },
-//   timezone: 3600,
-//   id: 2641170,
-//   name: "Nottingham",
-//   cod: 200,
-// };
 
 // https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
@@ -164,6 +117,10 @@ export default function Home() {
               </div>
             </Container>
           </div>
+        </section>
+
+        <section className="flex w-full flex-col gap-4">
+          <p className="text-2xl">Forecast (7 days)</p>
         </section>
       </main>
     </div>
