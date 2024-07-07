@@ -1,8 +1,8 @@
 import React from 'react'
 import { convertKelvinToCelsius } from '@/utils/convertKelvinToCelsius'
-import { ForecastData } from './types'
+import { WeatherData } from './types'
 
-const CurentForecast = (props: ForecastData)  => {
+const CurentForecast = (props: WeatherData)  => {
   const {main} = props
 
   return (

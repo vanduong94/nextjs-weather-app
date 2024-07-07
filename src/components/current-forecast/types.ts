@@ -1,47 +1,54 @@
-interface Main {
-  temp: number;
-  feels_like: number;
-  temp_min: number;
-  temp_max: number;
-  pressure: number;
-  humidity: number;
-  sea_level: number;
-  grnd_level: number;
-}
-
 interface Weather {
-  id: number;
-  main: string;
   description: string;
   icon: string;
+  id: number;
+  main: string;
+}
+
+interface Main {
+  feels_like: number;
+  grnd_level?: number; // Optional, as it may not always be present
+  humidity: number;
+  pressure: number;
+  sea_level?: number; // Optional, as it may not always be present
+  temp: number;
+  temp_max: number;
+  temp_min: number;
+}
+
+interface Wind {
+  speed: number;
+  deg: number;
 }
 
 interface Clouds {
   all: number;
 }
 
-interface Wind {
-  speed: number,
-  deg: number,
-  gust: number
-}
-
-interface Rain {
-  "3h": number;
-}
-
 interface Sys {
-  pod: string
+  country: string;
+  id: number;
+  sunrise: number;
+  sunset: number;
+  type: number;
 }
 
-export interface ForecastData {
+interface Coord {
+  lon: number;
+  lat: number;
+}
+
+export interface WeatherData {
+  base: string;
   clouds: Clouds;
+  cod: number;
+  coord: Coord;
   dt: number;
-  dt_txt: string;
+  id: number;
   main: Main;
-  pop: number;
-  rain: Rain;
+  name: string;
   sys: Sys;
+  timezone: number;
   visibility: number;
   weather: Weather[];
   wind: Wind;
