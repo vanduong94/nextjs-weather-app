@@ -13,8 +13,13 @@ import { convertWindSpeed } from '@/utils/convertWindSpeed'
 
 const WeatherDetails: React.FC<WeatherDetailsProps> = ({
   visibility, 
-  wind, 
-  main, 
+  wind: {
+    speed
+  }, 
+  main: {
+    humidity,
+    pressure
+  }, 
   city: {
     sunrise, 
     sunset
@@ -22,12 +27,36 @@ const WeatherDetails: React.FC<WeatherDetailsProps> = ({
 }) => {
 
   const weatherDetails = [
-    { icon: <LuEye />, information: "Visibility", value: metersToKilometers(visibility) },
-    { icon: <FiDroplet />, information: "Humidity", value: `${main.humidity}%` },
-    { icon: <MdAir />, information: "Wind Speed", value: `${convertWindSpeed(wind.speed)}` },
-    { icon: <ImMeter />, information: "Air Pressure", value: `${main.pressure} hPa` },
-    { icon: <LuSunrise />, information: "Sunrise", value: format(fromUnixTime(sunrise), 'H:mm') },
-    { icon: <LuSunrise />, information: "Sunset", value: format(fromUnixTime(sunset), 'H:mm') },
+    { 
+      icon: <LuEye />, 
+      information: "Visibility", 
+      value: visibility ? metersToKilometers(visibility) : '-'
+    },
+    { 
+      icon: <FiDroplet />, 
+      information: "Humidity", 
+      value: humidity ? `${humidity}%` : '-'
+    },
+    { 
+      icon: <MdAir />, 
+      information: "Wind Speed", 
+      value: speed ?`${convertWindSpeed(speed)}` : '-'
+    },
+    { 
+      icon: <ImMeter />, 
+      information: "Air Pressure", 
+      value: pressure ? `${pressure} hPa` : '-'
+    },
+    { 
+      icon: <LuSunrise />, 
+      information: "Sunrise", 
+      value: sunrise ? format(fromUnixTime(sunrise), 'H:mm') : '-'
+    },
+    { 
+      icon: <LuSunset />, 
+      information: "Sunset", 
+      value: sunset ? format(fromUnixTime(sunset), 'H:mm') : '-'
+    },
   ];
 
   return (
