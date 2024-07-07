@@ -11,6 +11,7 @@ import WeatherIcon from "@/components/weather-icon";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
 import CurentForecast from "@/components/current-forecast";
 import WeatherDetails from "@/components/weather-details";
+import ForecastWeatherDetail from "@/components/forecast-weather-detail";
 
 interface Weather {
   id: number;
@@ -70,7 +71,7 @@ export default function Home() {
   const [isLoading, setIsloading] = useState(true)
   const [weatherData, setWeatherData] = useState({})
 
-  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=10`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
 
   const fetchWeather = async() => {
     try {
@@ -92,7 +93,23 @@ export default function Home() {
 
   const firstData = weatherData?.list[0]
   const currentCityForecast = weatherData.city
-  console.log(weatherData);
+
+  const uniqueDates = [
+    ...new Set(
+      weatherData?.list.map(entry => new Date(entry.dt * 1000).toISOString().split("T")[0])
+    )
+  ]
+
+  const firstDataForEachDate = uniqueDates.map(date => {
+    return weatherData?.list.find(entry => {
+      const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0]
+      const entryTime = new Date(entry.dt * 1000).getHours()
+      return entryDate === date && entryTime >= 6
+    })
+  })
+
+  // console.log("foobar");
+  // console.log(currentCityForecast);
     
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
@@ -135,6 +152,9 @@ export default function Home() {
 
         <section className="flex w-full flex-col gap-4">
           <p className="text-2xl">Forecast (7 days)</p>
+          {firstDataForEachDate.map((data, index) => (
+            <ForecastWeatherDetail key={index} {...data} city={weatherData.city}/>
+          ))}
         </section>
       </main>
     </div>
