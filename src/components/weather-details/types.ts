@@ -52,15 +52,15 @@ interface Sys {
 }
 
 export interface WeatherDetailsProps {
-  dt: number;
+  dt?: number;
   main: Main;
-  weather: Weather[];
-  clouds: Clouds;
+  weather?: Weather[];
+  clouds?: Clouds;
   wind: Wind;
   visibility: number;
-  pop: number;
-  rain: Rain;
-  sys: Sys;
-  dt_txt: string;
+  pop?: number;
+  rain?: Rain;
+  sys?: Sys;
+  dt_txt?: string;
   city: City;
 }
