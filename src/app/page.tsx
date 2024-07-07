@@ -10,6 +10,7 @@ import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
 import WeatherIcon from "@/components/weather-icon";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
 import CurentForecast from "@/components/current-forecast";
+import WeatherDetails from "@/components/weather-details";
 
 interface Weather {
   id: number;
@@ -63,7 +64,7 @@ interface ForecastData {
   dt_txt: string;
 }
 
-// https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
+// https://api.openweathermap.org/data/2.5/weather?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
 export default function Home() {
   const [isLoading, setIsloading] = useState(true)
@@ -90,6 +91,7 @@ export default function Home() {
   if (isLoading) return <Loading />
 
   const firstData = weatherData?.list[0]
+  const currentCityForecast = weatherData.city
   console.log(weatherData);
     
   return (
@@ -115,6 +117,18 @@ export default function Home() {
                   )
                 })}
               </div>
+            </Container>
+          </div>
+          <div className="flex gap-4">
+            <Container className="w-fit justify-center flex-col px-4 items-center">
+              <p className="capitalize text-center">
+                {firstData?.weather[0].description}
+              </p>
+              <WeatherIcon iconName={getDayOrNightIcon(firstData?.weather[0].icon, firstData.dt_txt)}/>
+            </Container>
+
+            <Container className="bg-yellow-300/80 px-6 gap-4 justify-between oveflow-x-auto">
+                <WeatherDetails {...firstData} city={currentCityForecast}/>
             </Container>
           </div>
         </section>
