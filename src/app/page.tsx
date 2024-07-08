@@ -63,13 +63,15 @@ interface ForecastData {
   rain: Rain;
   sys: Sys;
   dt_txt: string;
+  list: [];
+  city: {};
 }
 
 // https://api.openweathermap.org/data/2.5/weather?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
-  const [weatherData, setWeatherData] = useState({})
+  const [weatherData, setWeatherData] = useState<ForecastData | null>(null)
 
   const [cityWeather, setCityWeather] = useState('nottingham')
 
