@@ -73,9 +73,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [weatherData, setWeatherData] = useState<ForecastData | null>(null)
 
-  const [cityWeather, setCityWeather] = useState('nottingham')
+  const [location, setLocation] = useState('nottingham')
 
-  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
 
   const fetchWeather = async() => {
     try {
@@ -91,7 +91,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchWeather();
-  }, [cityWeather]);
+  }, [location]);
 
   if (isLoading) return <Loading />
 
@@ -117,10 +117,10 @@ export default function Home() {
     
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
-      <Navbar setCityWeather={setCityWeather}/>
+      <Navbar setLocation={setLocation} location={location}/>
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
-        <section>
-          <div>
+        <section className="space-y-4">
+          <div className="space-y-2">
             <div className="flex gap-1 text-2xl items-end space-y-2">
               <h2>{format(parseISO(firstData?.dt_txt ?? ''), 'EEEE')}</h2>
               <p className="text-lg">({format(parseISO(firstData?.dt_txt ?? ''), 'dd.MM.yyyy')})</p>
