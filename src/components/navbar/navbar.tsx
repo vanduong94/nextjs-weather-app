@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdWbSunny, MdMyLocation, MdLocationOn } from "react-icons/md";
 import SearchBox from '../search-box';
 
 type Props = {}
 
-const Navbar = ({}: Props) => {
+const Navbar = (props: Props) => {
+  const [city, setCity] = useState("")
+  const [error, setError] = useState("")
+
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+
   return (
     <nav className='shadow-sm sticky top-0 left-0 z-50 bg-white'>
       <div className='h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto'>
@@ -17,7 +23,7 @@ const Navbar = ({}: Props) => {
           <MdLocationOn className='text-3xl'/>
           <p className="text-slate-900/80 text-sm">UK</p>
           <div>
-            <SearchBox />
+            <SearchBox setCityWeather={props.setCityWeather}/>
           </div>
         </section>
       </div>
