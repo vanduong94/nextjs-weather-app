@@ -71,7 +71,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [weatherData, setWeatherData] = useState({})
 
-  const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
+  const [cityWeather, setCityWeather] = useState('nottingham')
+
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
 
   const fetchWeather = async() => {
     try {
@@ -87,7 +89,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchWeather();
-  }, []);
+  }, [cityWeather]);
 
   if (isLoading) return <Loading />
 
@@ -108,12 +110,12 @@ export default function Home() {
     })
   })
 
-  // console.log("foobar");
+  // console.log("foobar 2");
   // console.log(currentCityForecast);
     
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
-      <Navbar />
+      <Navbar setCityWeather={setCityWeather}/>
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         <section>
           <div>
