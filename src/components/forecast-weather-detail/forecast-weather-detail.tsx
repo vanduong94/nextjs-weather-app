@@ -25,8 +25,7 @@ const ForecastWeatherDetail: React.FC<ForecastWeatherDetailProps> = ({
   wind,
   visibility
 }) => {
-  console.log('Foobar');
-  console.log(city);
+
   return (
     <Container className='gap-4'>
       <section className="flex gap-4 items-center px-4">
