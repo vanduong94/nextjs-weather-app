@@ -6,12 +6,13 @@ import { Props } from './types';
 
 
 const SearchBox = (props: Props) => {
+  const {setLocation} = props
+  
   const [newCity, setNewCity] = useState('')
-  const {setCityWeather} = props
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    setCityWeather(newCity)
+    setLocation(newCity)
   }
 
   return (
