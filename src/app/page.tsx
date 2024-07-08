@@ -68,7 +68,7 @@ interface ForecastData {
 // https://api.openweathermap.org/data/2.5/weather?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
 export default function Home() {
-  const [isLoading, setIsloading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [weatherData, setWeatherData] = useState({})
 
   const url = `https://api.openweathermap.org/data/2.5/forecast?q=nottingham&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`;
@@ -77,11 +77,11 @@ export default function Home() {
     try {
       const response =  await fetch(url)
       const data = await response.json()
-      setIsloading(false)
+      setIsLoading(false)
       setWeatherData(data)
     } catch (error) {
       console.log(error);
-      setIsloading(true)
+      setIsLoading(true)
     }
   }
 
