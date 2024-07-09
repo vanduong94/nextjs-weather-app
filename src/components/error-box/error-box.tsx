@@ -1,9 +1,10 @@
 import React from 'react'
 
-type Props = {}
-
-const ErrorBox = (props: Props) => {
-  const {location} = props
+const ErrorBox = ({
+  location
+}: {
+  location: string
+}) => {
 
   return (
     <div className='mb-4 bg-white absolute border top[40px] left-0 border-gray-300 rounded-md min-w-[200px] flex flex-col gap-1 py2 px-2'>
