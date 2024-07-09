@@ -72,6 +72,7 @@ interface ForecastData {
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [weatherData, setWeatherData] = useState<ForecastData | null>(null)
+  const [error, setError] = useState(false)
 
   const [location, setLocation] = useState('nottingham')
 
@@ -81,8 +82,13 @@ export default function Home() {
     try {
       const response =  await fetch(url)
       const data = await response.json()
-      setIsLoading(false)
-      setWeatherData(data)
+      if (data.cod == 200) {
+        setIsLoading(false)
+        setWeatherData(data)
+        setError(false)
+      } else {
+        setError(true)
+      }
     } catch (error) {
       console.log(error);
       setIsLoading(true)
@@ -96,7 +102,7 @@ export default function Home() {
   if (isLoading) return <Loading />
 
   const firstData = weatherData?.list[0]
-  const currentCityForecast = weatherData.city
+  const currentCityForecast = weatherData?.city
 
   const uniqueDates = [
     ...new Set(
@@ -111,13 +117,10 @@ export default function Home() {
       return entryDate === date && entryTime >= 6
     })
   })
-
-  // console.log("foobar 2");
-  // console.log(currentCityForecast);
     
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
-      <Navbar setLocation={setLocation} location={location}/>
+      <Navbar setLocation={setLocation} location={location} error={error}/>
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         <section className="space-y-4">
           <div className="space-y-2">
